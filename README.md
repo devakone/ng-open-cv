@@ -59,7 +59,7 @@ declare var cv: any;
 
 ## Demo
 
-N/A
+[You can visit the demo site here](https://devakone.github.io/ng-open-cv/).
 
 ## Usage
 

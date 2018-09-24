@@ -1,6 +1,7 @@
 {
   "name": "ng-open-cv",
-  "version": "0.0.2-alpha",
+  "author": "Abou Kone",
+  "version": "0.0.3-alpha",
   "description": "Angular 6+ library integration for OpenCV.js",
   "keywords" :["Angular","OpenCV","Library","OpenCVJS", "Face Detection"],
   "license" : "SEE LICENSE IN LICENSE",

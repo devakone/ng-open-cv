@@ -141,7 +141,6 @@ export class NgOpenCVService {
         observer.next();
         observer.complete();
       };
-      console.log(imageUrl);
       img.src = imageUrl;
     });
   }
