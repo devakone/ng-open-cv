@@ -3,7 +3,7 @@
 This is a library that integrates Angular v6+ with OpenCVJS, the Javascript port of the popular computer 
 vision library. It will allow you to load the library (with its WASM components) and use it in your application. The loading is done asynchrosnously after your Angular app has booted. The attached service makes use of a notifier to indicate when the loading is done and the service and library is ready for use.
 
-[Please read this blog post for the whole background on how this library came together]()
+[Please read this blog post for the whole background on how this library came together](https://medium.com/@abookone/integrating-opencv-js-with-an-angular-application-20ae11c7e217)
 
 
 
@@ -246,6 +246,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 # Credits 
  [OpenCV.js](https://github.com/opencv/opencv)
+ 
  [How to build a library for Angular apps](https://medium.com/@tomsu/how-to-build-a-library-for-angular-apps-4f9b38b0ed11)
 
 # License
