@@ -23,7 +23,7 @@ yarn add ng-open-cv
 ```
 
 Once the library is installed you will need to copy the `opencv` content from the `node_modules/ng-open-cv/lib/assets` folder to your own `assets` folder. This folder
-contains the actual OpenCV library (v3.4) and its WASM files.
+contains the actual OpenCV library (v3.4) and its WASM and ASM.js files.
 
 ### Data files
 
@@ -67,16 +67,27 @@ If you have installed NgOpenCV and copied the `opencv` folder to your `assets` d
 
 
 #### 1. Import the `NgOpenCVModule`
-Create the configuration object needed to configure the loading of OpenCV.js for your application.
+Create the configuration object needed to configure the loading of OpenCV.js for your application. By default the 3.4 asm.js version of the library will be loaded. The default options are
+
+```ts
+DEFAULT_OPTIONS = {
+    scriptUrl: 'assets/opencv/asm/3.4/opencv.js',
+    usingWasm: false,
+    locateFile: this.locateFile.bind(this),
+    onRuntimeInitialized: () => {}
+  };
+  ```
+Adjust the `scriptUrl` to contain the path to your opencvjs file. If you wanted to load the WASM version, you would use a configuration like:
 
 ```ts
 const openCVConfig: OpenCVOptions = {
-  scriptUrl: `assets/opencv/opencv.js`,
-  wasmBinaryFile: 'wasm/opencv_js.wasm',
+  scriptUrl: `assets/opencv/wasm/3.4/opencv.js`,
+  wasmBinaryFile: 'wasm/3.4/opencv_js.wasm',
   usingWasm: true
 };
 ```
 
+### Note: WASM is not supported on mobile Safari
 
 Import `NgOpenCVModule.forRoot(config)` in the NgModule of your application.
 The `forRoot` method is a convention for modules that provide a singleton service. Pass it the configuration object.

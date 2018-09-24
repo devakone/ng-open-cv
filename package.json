@@ -1,6 +1,6 @@
 {
   "name": "ng-open-cv-lib",
-  "version": "0.0.3-alpha",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,6 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-lib": "ng build ng-open-cv",
+    "build-lib-publish-site":"npm package && npm publish-site",
     "copy-lib-assets": "cp-cli projects/ng-open-cv/src/lib/assets dist/ng-open-cv/lib/assets",
     "copy-license": "cp LICENSE dist/ng-open-cv/",
     "copy-readme": "cp README.md dist/ng-open-cv/",

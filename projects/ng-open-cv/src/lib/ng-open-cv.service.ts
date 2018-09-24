@@ -30,7 +30,7 @@ export class NgOpenCVService {
   onCameraStartedCallback: (a, b) => void;
   OPENCV_URL = 'opencv.js';
   DEFAULT_OPTIONS = {
-    scriptUrl: 'assets/opencv/opencv.js',
+    scriptUrl: 'assets/opencv/asm/3.4/opencv.js',
     wasmBinaryFile: 'wasm/opencv_js.wasm',
     usingWasm: false,
     locateFile: this.locateFile.bind(this),
