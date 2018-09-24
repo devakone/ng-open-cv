@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ng-open-cv-lib';
+  title = 'NgOpenCV: Angular OpenCV Integration Service';
+
+  constructor(){
+
+  }
+
+
 }

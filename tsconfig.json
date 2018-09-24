@@ -16,6 +16,18 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ng-open-cv": [
+        "dist/ng-open-cv",
+        "dist/ng-open-cv",
+        "dist/ng-open-cv"
+      ],
+      "ng-open-cv/*": [
+        "dist/ng-open-cv/*",
+        "dist/ng-open-cv/*",
+        "dist/ng-open-cv/*"
+      ]
+    }
   }
 }

@@ -1,0 +1,31 @@
+<h2>Hello World Example</h2>
+<p>
+ Use the Choose File button to load an image through OpenCV.js in the <b>canvasOutput</b> section
+</p>
+<div *ngIf="openCVLoadResult | async as result">
+  <div class="error" *ngIf="result.loading">Waiting for OpenCV.js to load!</div>
+  <div class="ready" *ngIf="result.ready">OpenCV.js is ready!</div>
+  <div *ngIf="result.error">OpenCV.js load error!</div>
+</div>
+
+<div>
+  <table cellpadding="0" cellspacing="0" width="0" border="0">
+    <tr>
+
+      <td>
+        <canvas #canvasOutput id="canvasOutput"></canvas>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="caption">canvasOutput</div>
+      </td>
+    </tr>
+  </table>
+  <div class="caption"> <input (change)="loadImage($event)" #fileInput type="file" id="fileInput" name="file"
+    accept="image/*" /></div>
+</div>
+
+<div class="more-examples">
+  <a href="/example-list">More Examples</a>
+</div>

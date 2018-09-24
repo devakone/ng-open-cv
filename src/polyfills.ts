@@ -14,6 +14,8 @@
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
 
+ declare var cv: any;
+
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */

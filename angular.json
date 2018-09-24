@@ -50,7 +50,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-open-cv-lib:build"
+            "browserTarget": "ng-open-cv-lib:build",
+            "port":4321
           },
           "configurations": {
             "production": {
@@ -115,6 +116,41 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ng-open-cv": {
+      "root": "projects/ng-open-cv",
+      "sourceRoot": "projects/ng-open-cv/src",
+      "projectType": "library",
+      "prefix": "opencv",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-open-cv/tsconfig.lib.json",
+            "project": "projects/ng-open-cv/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-open-cv/src/test.ts",
+            "tsConfig": "projects/ng-open-cv/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-open-cv/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-open-cv/tsconfig.lib.json",
+              "projects/ng-open-cv/tsconfig.spec.json"
+            ],
             "exclude": [
               "**/node_modules/**"
             ]

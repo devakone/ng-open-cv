@@ -1,0 +1,16 @@
+{
+  "name": "ng-open-cv",
+  "version": "0.0.1-alpha",
+  "description": "Angular library to work with OpenCV.",
+  "keywords" :["Angular","OpenCV","Library"],
+  "license" : "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/devakone/ng-open-cv-lib"
+  },
+  "homepage" :"https://medium.com/@palmer_todd/the-angular-library-series-publishing-ce24bb673275",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
+  }
+}
