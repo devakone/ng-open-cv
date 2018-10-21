@@ -1,10 +1,11 @@
+import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+import { OpenCVLoadResult, OpenCVOptions } from './ng-open-cv.models';
+
 /*
 Angular modifification of the OpenCV utils script found at https://docs.opencv.org/master/utils.js
 */
-import { Injectable, InjectionToken, Inject } from '@angular/core';
-import { OpenCVOptions, OpenCVLoadResult } from './ng-open-cv.models';
-import { BehaviorSubject, Observable } from 'rxjs';
-
 declare var cv: any;
 
 export const OPEN_CV_CONFIGURATION = new InjectionToken<OpenCVOptions>('Angular OpenCV Configuration Object');
@@ -86,7 +87,11 @@ export class NgOpenCVService {
     });
     script.src = this.OPENCV_URL;
     const node = document.getElementsByTagName('script')[0];
-    node.parentNode.insertBefore(script, node);
+    if (node) {
+      node.parentNode.insertBefore(script, node);
+    } else {
+      document.head.appendChild(script);
+    }
   }
 
   createFileFromUrl(path, url) {
