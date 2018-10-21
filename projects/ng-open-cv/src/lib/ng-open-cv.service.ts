@@ -31,7 +31,7 @@ export class NgOpenCVService {
   OPENCV_URL = 'opencv.js';
   DEFAULT_OPTIONS = {
     scriptUrl: 'assets/opencv/asm/3.4/opencv.js',
-    wasmBinaryFile: 'wasm/opencv_js.wasm',
+    wasmBinaryFile: 'wasm/3.4/opencv_js.wasm',
     usingWasm: false,
     locateFile: this.locateFile.bind(this),
     onRuntimeInitialized: () => {}
