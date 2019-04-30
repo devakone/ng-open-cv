@@ -67,14 +67,17 @@ export class NgOpenCVService {
     script.setAttribute('async', '');
     script.setAttribute('type', 'text/javascript');
     script.addEventListener('load', () => {
-      if (options.onRuntimeInitialized) {
-        options.onRuntimeInitialized();
-      }
-      this.isReady.next({
-        ready: true,
-        error: false,
-        loading: false
-      });
+      const onRuntimeInitializedCallback = () => {
+        if (options.onRuntimeInitialized) {
+          options.onRuntimeInitialized();
+        }
+        this.isReady.next({
+          ready: true,
+          error: false,
+          loading: false
+        });
+      };
+      cv.onRuntimeInitialized = onRuntimeInitializedCallback;
     });
     script.addEventListener('error', () => {
       const err = this.printError('Failed to load ' + this.OPENCV_URL);
