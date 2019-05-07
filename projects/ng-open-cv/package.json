@@ -1,7 +1,7 @@
 {
   "name": "ng-open-cv",
   "author": "Abou Kone",
-  "version": "0.2.1",
+  "version": "0.3.1",
   "description": "Angular 6+ library integration for OpenCV.js",
   "keywords": [
     "Angular",
