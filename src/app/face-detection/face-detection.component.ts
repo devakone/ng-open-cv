@@ -1,68 +1,67 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { NgOpenCVService, OpenCVLoadResult } from 'ng-open-cv';
+import { forkJoin, Observable, fromEvent, BehaviorSubject } from 'rxjs';
 import { tap, switchMap, filter } from 'rxjs/operators';
-import { forkJoin, Observable, empty, fromEvent, BehaviorSubject } from 'rxjs';
+import { NgOpenCVService, OpenCVLoadResult } from '../../../projects/ng-open-cv/src/public_api';
+
+type NgOpenCVServiceCompat = {
+  isReady$: Observable<OpenCVLoadResult>;
+  loadImageToHTMLCanvas(imageUrl: string, canvas: HTMLCanvasElement): Observable<void>;
+  createFileFromUrl(path: string, url: string): Observable<void>;
+};
 
 @Component({
+  standalone: false,
   selector: 'app-face-detection',
   templateUrl: './face-detection.component.html',
   styleUrls: ['./face-detection.component.css']
 })
 export class FaceDetectionComponent implements AfterViewInit, OnInit {
   imageUrl = 'assets/DaveChappelle.jpg';
-  // Notifies of the ready state of the classifiers load operation
   private classifiersLoaded = new BehaviorSubject<boolean>(false);
   classifiersLoaded$ = this.classifiersLoaded.asObservable();
 
-  // HTML Element references
   @ViewChild('fileInput')
-  fileInput: ElementRef;
+  fileInput!: ElementRef;
   @ViewChild('canvasInput')
-  canvasInput: ElementRef;
+  canvasInput!: ElementRef;
   @ViewChild('canvasOutput')
-  canvasOutput: ElementRef;
+  canvasOutput!: ElementRef;
 
-  // Inject the NgOpenCVService
   constructor(private ngOpenCVService: NgOpenCVService) {}
 
   ngOnInit() {
-    // Always subscribe to the NgOpenCVService isReady$ observer before using a CV related function to ensure that the OpenCV has been
-    // successfully loaded
-    this.ngOpenCVService.isReady$
+    const openCVService = this.ngOpenCVService as unknown as NgOpenCVServiceCompat;
+    openCVService.isReady$
       .pipe(
-        // The OpenCV library has been successfully loaded if result.ready === true
         filter((result: OpenCVLoadResult) => result.ready),
-        switchMap(() => {
-          // Load the face and eye classifiers files
-          return this.loadClassifiers();
-        })
+        switchMap(() => this.loadClassifiers())
       )
       .subscribe(() => {
-        // The classifiers have been succesfully loaded
         this.classifiersLoaded.next(true);
       });
   }
 
   ngAfterViewInit(): void {
-    // Here we just load our example image to the canvas
-    this.ngOpenCVService.isReady$
+    const openCVService = this.ngOpenCVService as unknown as NgOpenCVServiceCompat;
+    openCVService.isReady$
       .pipe(
         filter((result: OpenCVLoadResult) => result.ready),
-        tap((result: OpenCVLoadResult) => {
-          this.ngOpenCVService.loadImageToHTMLCanvas(this.imageUrl, this.canvasInput.nativeElement).subscribe();
+        tap(() => {
+          openCVService.loadImageToHTMLCanvas(this.imageUrl, this.canvasInput.nativeElement).subscribe();
         })
       )
       .subscribe(() => {});
   }
 
-  readDataUrl(event) {
+  readDataUrl(event: any) {
     if (event.target.files.length) {
       const reader = new FileReader();
       const load$ = fromEvent(reader, 'load');
+      const openCVService = this.ngOpenCVService as unknown as NgOpenCVServiceCompat;
       load$
         .pipe(
           switchMap(() => {
-            return this.ngOpenCVService.loadImageToHTMLCanvas(`${reader.result}`, this.canvasInput.nativeElement);
+            return openCVService.loadImageToHTMLCanvas(`${reader.result}`, this.canvasInput.nativeElement);
           })
         )
         .subscribe(
@@ -74,17 +73,15 @@ export class FaceDetectionComponent implements AfterViewInit, OnInit {
       reader.readAsDataURL(event.target.files[0]);
     }
   }
-  // Before attempting face detection, we need to load the appropriate classifiers in memory first
-  // by using the createFileFromUrl(path, url) function, which takes two parameters
-  // @path: The path you will later use in the detectMultiScale function call
-  // @url: The url where to retrieve the file from.
+
   loadClassifiers(): Observable<any> {
+    const openCVService = this.ngOpenCVService as unknown as NgOpenCVServiceCompat;
     return forkJoin(
-      this.ngOpenCVService.createFileFromUrl(
+      openCVService.createFileFromUrl(
         'haarcascade_frontalface_default.xml',
         `assets/opencv/data/haarcascades/haarcascade_frontalface_default.xml`
       ),
-      this.ngOpenCVService.createFileFromUrl(
+      openCVService.createFileFromUrl(
         'haarcascade_eye.xml',
         `assets/opencv/data/haarcascades/haarcascade_eye.xml`
       )
@@ -92,10 +89,8 @@ export class FaceDetectionComponent implements AfterViewInit, OnInit {
   }
 
   detectFace() {
-    // before detecting the face we need to make sure that
-    // 1. OpenCV is loaded
-    // 2. The classifiers have been loaded
-    this.ngOpenCVService.isReady$
+    const openCVService = this.ngOpenCVService as unknown as NgOpenCVServiceCompat;
+    openCVService.isReady$
       .pipe(
         filter((result: OpenCVLoadResult) => result.ready),
         switchMap(() => {
@@ -117,8 +112,6 @@ export class FaceDetectionComponent implements AfterViewInit, OnInit {
   }
 
   findFaceAndEyes() {
-    // Example code from OpenCV.js to perform face and eyes detection
-    // Slight adapted for Angular
     const src = cv.imread(this.canvasInput.nativeElement.id);
     const gray = new cv.Mat();
     cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
@@ -126,10 +119,8 @@ export class FaceDetectionComponent implements AfterViewInit, OnInit {
     const eyes = new cv.RectVector();
     const faceCascade = new cv.CascadeClassifier();
     const eyeCascade = new cv.CascadeClassifier();
-    // load pre-trained classifiers, they should be in memory now
     faceCascade.load('haarcascade_frontalface_default.xml');
     eyeCascade.load('haarcascade_eye.xml');
-    // detect faces
     const msize = new cv.Size(0, 0);
     faceCascade.detectMultiScale(gray, faces, 1.1, 3, 0, msize, msize);
     for (let i = 0; i < faces.size(); ++i) {
@@ -138,7 +129,6 @@ export class FaceDetectionComponent implements AfterViewInit, OnInit {
       const point1 = new cv.Point(faces.get(i).x, faces.get(i).y);
       const point2 = new cv.Point(faces.get(i).x + faces.get(i).width, faces.get(i).y + faces.get(i).height);
       cv.rectangle(src, point1, point2, [255, 0, 0, 255]);
-      // detect eyes in face ROI
       eyeCascade.detectMultiScale(roiGray, eyes);
       for (let j = 0; j < eyes.size(); ++j) {
         const point3 = new cv.Point(eyes.get(j).x, eyes.get(j).y);

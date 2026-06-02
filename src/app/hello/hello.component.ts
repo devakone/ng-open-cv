@@ -1,38 +1,44 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { NgOpenCVService, OpenCVLoadResult } from 'ng-open-cv';
+import { NgOpenCVService, OpenCVLoadResult } from '../../../projects/ng-open-cv/src/public_api';
+
+type NgOpenCVServiceCompat = {
+  isReady$: Observable<OpenCVLoadResult>;
+  loadImageToHTMLCanvas(imageUrl: string, canvas: HTMLCanvasElement): Observable<void>;
+};
 
 @Component({
+  standalone: false,
   selector: 'app-hello',
   templateUrl: './hello.component.html',
   styleUrls: ['./hello.component.css']
 })
 export class HelloComponent implements OnInit {
+  openCVLoadResult!: Observable<OpenCVLoadResult>;
 
-  // Keep tracks of the ready
-  openCVLoadResult: Observable<OpenCVLoadResult>;
-
-  // HTML Element references
   @ViewChild('fileInput')
-  fileInput: ElementRef;
-  @ViewChild('canvasOutput')
-  canvasOutput: ElementRef;
+  fileInput!: ElementRef;
 
-  constructor(private ngOpenCVService: NgOpenCVService) { }
+  @ViewChild('canvasOutput')
+  canvasOutput!: ElementRef;
+
+  constructor(private ngOpenCVService: NgOpenCVService) {}
 
   ngOnInit() {
-    this.openCVLoadResult = this.ngOpenCVService.isReady$;
+    const openCVService = this.ngOpenCVService as unknown as NgOpenCVServiceCompat;
+    this.openCVLoadResult = openCVService.isReady$;
   }
 
-  loadImage(event) {
+  loadImage(event: any) {
     if (event.target.files.length) {
       const reader = new FileReader();
       const load$ = fromEvent(reader, 'load');
       load$
         .pipe(
           switchMap(() => {
-            return this.ngOpenCVService.loadImageToHTMLCanvas(`${reader.result}`, this.canvasOutput.nativeElement);
+            const openCVService = this.ngOpenCVService as unknown as NgOpenCVServiceCompat;
+            return openCVService.loadImageToHTMLCanvas(`${reader.result}`, this.canvasOutput.nativeElement);
           })
         )
         .subscribe(
@@ -44,5 +50,4 @@ export class HelloComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
     }
   }
-
 }
