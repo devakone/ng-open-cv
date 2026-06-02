@@ -13,7 +13,10 @@
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
-    "url": "https://github.com/devakone/ng-open-cv-lib"
+    "url": "git+https://github.com/devakone/ng-open-cv.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "homepage": "https://medium.com/code-divoire/integrating-opencv-js-with-an-angular-application-20ae11c7e217",
   "peerDependencies": {
