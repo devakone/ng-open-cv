@@ -30,7 +30,10 @@ jobs:
           npm --version
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Chrome Headless Shell
+        run: echo "CHROME_BIN=$(npx --yes @puppeteer/browsers install chrome-headless-shell@latest --path $HOME/.cache/chrome --format '{{path}}')" >> $GITHUB_ENV
 
       - name: Build library
         run: npm run build-lib
