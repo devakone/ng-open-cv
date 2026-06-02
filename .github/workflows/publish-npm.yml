@@ -1,14 +1,17 @@
 name: Publish npm package
 
 on:
-  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
 
 permissions:
   contents: read
   id-token: write
 
 jobs:
-  publish:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,7 +43,7 @@ jobs:
 
       - name: Run tests
         env:
-          CHROME_BIN: /usr/bin/google-chrome
+          CHROME_BIN: ${{ env.CHROME_BIN }}
         run: npm test -- --watch=false --progress=false --browsers=ChromeHeadlessNoSandbox
 
       - name: Package library
@@ -50,6 +53,61 @@ jobs:
         run: |
           cd dist/ng-open-cv
           node -p "require('./package.json')"
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ng-open-cv-package
+          path: dist/ng-open-cv
+
+  release-please:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: validate
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Release Please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: .github/release-please-config.json
+          manifest-file: .release-please-manifest.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    if: github.event_name == 'push' && needs.release-please.outputs.release_created == 'true'
+    runs-on: ubuntu-latest
+    needs: [validate, release-please]
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.14.0
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - name: Upgrade npm
+        run: npm install -g npm@11.5.1
+
+      - name: Download package artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ng-open-cv-package
+          path: dist/ng-open-cv
 
       - name: Publish to npm
         working-directory: dist/ng-open-cv
