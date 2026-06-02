@@ -16,7 +16,7 @@ export class NgOpenCVModule {
    *
    * @memberOf NgOpenCvModule
    */
-  static forRoot(config: OpenCVOptions): ModuleWithProviders {
+  static forRoot(config: OpenCVOptions): ModuleWithProviders<NgOpenCVModule> {
     return {
       ngModule: NgOpenCVModule,
       providers: [{ provide: OPEN_CV_CONFIGURATION, useValue: config }]

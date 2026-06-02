@@ -38,7 +38,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -50,12 +49,12 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-open-cv-lib:build",
-            "port":4321
+            "buildTarget": "ng-open-cv-lib:build",
+            "port": 4321
           },
           "configurations": {
             "production": {
-              "browserTarget": "ng-open-cv-lib:build:production"
+              "buildTarget": "ng-open-cv-lib:build:production"
             }
           }
         },
@@ -130,7 +129,7 @@
       "prefix": "opencv",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ng-open-cv/tsconfig.lib.json",
             "project": "projects/ng-open-cv/ng-package.json"
