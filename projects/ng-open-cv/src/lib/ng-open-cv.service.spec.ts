@@ -4,7 +4,22 @@ import { OPEN_CV_CONFIGURATION, NgOpenCVService } from './ng-open-cv.service';
 import { OpenCVLoadResult } from './ng-open-cv.models';
 
 describe('NgOpenCVService', () => {
+  let script: HTMLScriptElement;
+  let insertBefore: jasmine.Spy;
+
   beforeEach(() => {
+    script = {
+      async: false,
+      type: '',
+      src: '',
+      addEventListener: jasmine.createSpy('addEventListener')
+    } as unknown as HTMLScriptElement;
+    insertBefore = jasmine.createSpy('insertBefore');
+    spyOn(document, 'createElement').and.returnValue(script);
+    spyOn(document, 'getElementsByTagName').and.returnValue([
+      { parentNode: { insertBefore } } as unknown as HTMLScriptElement
+    ] as unknown as HTMLCollectionOf<HTMLScriptElement>);
+
     TestBed.configureTestingModule({
       providers: [
         {
@@ -21,18 +36,6 @@ describe('NgOpenCVService', () => {
   });
 
   it('should be created without loading a real OpenCV script', () => {
-    const script = {
-      async: false,
-      type: '',
-      src: '',
-      addEventListener: jasmine.createSpy('addEventListener')
-    } as unknown as HTMLScriptElement;
-    const insertBefore = jasmine.createSpy('insertBefore');
-    spyOn(document, 'createElement').and.returnValue(script);
-    spyOn(document, 'getElementsByTagName').and.returnValue([
-      { parentNode: { insertBefore } } as unknown as HTMLScriptElement
-    ] as unknown as HTMLCollectionOf<HTMLScriptElement>);
-
     const service = TestBed.inject(NgOpenCVService);
     expect(service).toBeTruthy();
     expect(service.OPENCV_URL).toBe('assets/opencv/asm/3.4/opencv.js');

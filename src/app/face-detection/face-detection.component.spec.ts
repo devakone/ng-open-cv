@@ -1,7 +1,5 @@
 /* tslint:disable:no-unused-variable */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 import { of } from 'rxjs';
 
 import { NgOpenCVService } from '../../../projects/ng-open-cv/src/public_api';

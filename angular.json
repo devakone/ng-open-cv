@@ -79,6 +79,12 @@
               "src/favicon.ico",
               "src/assets"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "watch": false,
+              "browsers": "ChromeHeadlessCI"
+            }
           }
         },
         "lint": {
@@ -141,6 +147,12 @@
             "main": "projects/ng-open-cv/src/test.ts",
             "tsConfig": "projects/ng-open-cv/tsconfig.spec.json",
             "karmaConfig": "projects/ng-open-cv/karma.conf.js"
+          },
+          "configurations": {
+            "ci": {
+              "watch": false,
+              "browsers": "ChromeHeadlessCI"
+            }
           }
         },
         "lint": {
