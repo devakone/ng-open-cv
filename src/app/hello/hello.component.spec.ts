@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { of } from 'rxjs';
+import { NgOpenCVService } from 'ng-open-cv';
 
 import { HelloComponent } from './hello.component';
 
@@ -11,7 +11,16 @@ describe('HelloComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HelloComponent ]
+      declarations: [ HelloComponent ],
+      providers: [
+        {
+          provide: NgOpenCVService,
+          useValue: {
+            isReady$: of({ ready: false, error: false, loading: true }),
+            loadImageToHTMLCanvas: () => of(null)
+          }
+        }
+      ]
     })
     .compileComponents();
   }));
