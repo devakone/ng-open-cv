@@ -5,28 +5,22 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "es2015",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "useDefineForClassFields": false,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es2022",
+    "skipLibCheck": true,
+    "lib": ["es2022", "dom"],
     "typeRoots": [
       "node_modules/@types"
     ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
     "paths": {
       "ng-open-cv": [
-        "dist/ng-open-cv",
-        "dist/ng-open-cv",
-        "dist/ng-open-cv"
+        "projects/ng-open-cv/src/public_api.ts"
       ],
       "ng-open-cv/*": [
-        "dist/ng-open-cv/*",
-        "dist/ng-open-cv/*",
-        "dist/ng-open-cv/*"
+        "projects/ng-open-cv/src/*"
       ]
     }
   }

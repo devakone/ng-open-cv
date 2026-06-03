@@ -1,28 +1,27 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { NgOpenCVService } from 'ng-open-cv';
 
+import { NgOpenCVService } from '../../../projects/ng-open-cv/src/public_api';
 import { HelloComponent } from './hello.component';
 
 describe('HelloComponent', () => {
   let component: HelloComponent;
   let fixture: ComponentFixture<HelloComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HelloComponent ],
+      declarations: [HelloComponent],
       providers: [
         {
           provide: NgOpenCVService,
           useValue: {
-            isReady$: of({ ready: false, error: false, loading: true }),
-            loadImageToHTMLCanvas: () => of(null)
+            isReady$: of({ ready: false, error: false, loading: false }),
+            loadImageToHTMLCanvas: () => of(void 0)
           }
         }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
