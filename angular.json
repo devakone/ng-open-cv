@@ -157,6 +157,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ng-open-cv-lib"
+  }
 }
