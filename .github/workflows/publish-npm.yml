@@ -2,6 +2,7 @@ name: Publish npm package
 
 on:
   pull_request:
+  workflow_dispatch:
   # A merge of the release PR into main triggers release-please and, when
   # release-please creates a new release, the publish job below.
   push:
@@ -53,8 +54,8 @@ jobs:
       contents: write
       pull-requests: write
     outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      version: ${{ steps.release.outputs.version }}
+      release_created: ${{ steps.release.outputs['projects/ng-open-cv--release_created'] }}
+      version: ${{ steps.release.outputs['projects/ng-open-cv--version'] }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -70,8 +71,10 @@ jobs:
           manifest-file: .release-please-manifest.json
 
   publish-release:
-    if: needs.release-please-on-main.outputs.release_created == 'true'
-    needs: release-please-on-main
+    if: ${{ always() && needs.validate-pr-and-release.result == 'success' && (github.event_name == 'workflow_dispatch' || needs.release-please-on-main.outputs.release_created == 'true') }}
+    needs:
+      - validate-pr-and-release
+      - release-please-on-main
     runs-on: ubuntu-latest
     permissions:
       contents: read
