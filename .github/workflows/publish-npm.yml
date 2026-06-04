@@ -101,7 +101,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build package
-        run: npm run package
+        run: npm run build-lib && npm run copy-files
 
       - name: Publish to npm
         run: npm publish ./dist/ng-open-cv --provenance --access public
