@@ -82,10 +82,11 @@ Adjust the `scriptUrl` to contain the path to your opencvjs file. If you wanted 
 ```ts
 const openCVConfig: OpenCVOptions = {
   scriptUrl: `assets/opencv/wasm/3.4/opencv.js`,
-  wasmBinaryFile: 'wasm/3.4/opencv_js.wasm',
   usingWasm: true
 };
 ```
+
+The default loader expects `opencv_js.wasm` to live in the same folder as the configured WASM `opencv.js` file. If your app stores the binary somewhere else, pass a custom `locateFile` function in the configuration.
 
 ### Note: WASM is not supported on mobile Safari
 
@@ -100,11 +101,10 @@ import { AppComponent } from './app.component';
 import { NgOpenCVModule } from 'ng-open-cv';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { OpenCVOptions } from 'projects/ng-open-cv/src/public_api';
+import { OpenCVOptions } from 'ng-open-cv';
 
 const openCVConfig: OpenCVOptions = {
-  scriptUrl: `assets/opencv/opencv.js`,
-  wasmBinaryFile: 'wasm/opencv_js.wasm',
+  scriptUrl: `assets/opencv/wasm/3.4/opencv.js`,
   usingWasm: true
 };
 

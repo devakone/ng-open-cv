@@ -27,7 +27,6 @@ describe('NgOpenCVService', () => {
           useValue: {
             scriptUrl: 'assets/opencv/asm/3.4/opencv.js',
             usingWasm: false,
-            locateFile: () => 'assets/opencv/asm/3.4/opencv.js',
             onRuntimeInitialized: () => {}
           }
         }
@@ -56,5 +55,15 @@ describe('NgOpenCVService', () => {
     const service = TestBed.inject(NgOpenCVService);
     service.setScriptUrl('assets/custom/opencv.js');
     expect(service.OPENCV_URL).toBe('assets/custom/opencv.js');
+  });
+
+  it('should resolve the wasm binary from the script directory', () => {
+    TestBed.inject(NgOpenCVService);
+
+    const module = (globalThis as { Module?: { locateFile?: (path: string, scriptDirectory: string) => string } }).Module;
+
+    expect(module?.locateFile?.('opencv_js.wasm', 'http://localhost:4200/assets/opencv/wasm/3.4/')).toBe(
+      'http://localhost:4200/assets/opencv/wasm/3.4/opencv_js.wasm'
+    );
   });
 });

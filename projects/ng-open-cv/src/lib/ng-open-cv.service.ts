@@ -63,9 +63,6 @@ export class NgOpenCVService {
   }
 
   private locateFile(path: string, scriptDirectory: string): string {
-    if (path === 'opencv_js.wasm') {
-      return `${scriptDirectory}/wasm/${path}`;
-    }
     return `${scriptDirectory}${path}`;
   }
 
