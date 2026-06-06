@@ -24,5 +24,8 @@
     "@angular/core": "^19.0.0 || ^20.0.0 || ^21.0.0",
     "rxjs": "^7.8.0",
     "zone.js": "^0.16.0"
+  },
+  "dependencies": {
+    "@opencvjs/types": "^4.13.0-release.1"
   }
 }
