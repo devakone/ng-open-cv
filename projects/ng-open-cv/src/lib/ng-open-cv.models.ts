@@ -1,5 +1,5 @@
 export interface OpenCVLocateFileFn {
-  (path: string, scriptDirectory: string);
+  (path: string, scriptDirectory: string): string;
 }
 
 export interface OpenCvRuntimeInitializedFn {
