@@ -41,6 +41,7 @@
     "@angular/compiler-cli": "^21.2.15",
     "@angular/language-service": "^21.2.15",
     "@angular/build": "^21.2.13",
+    "@opencvjs/types": "^4.13.0-release.1",
     "@types/jasmine": "^6.0.0",
     "@types/node": "^25.9.1",
     "angular-cli-ghpages": "^3.0.0",

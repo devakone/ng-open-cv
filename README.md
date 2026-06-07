@@ -51,10 +51,22 @@ this.ngOpenCVService.createFileFromUrl(
 
 3. Typings
 
-To your `src/typings.d.ts` file. add 
+NgOpenCV exports OpenCV.js typings through the maintained `@opencvjs/types` package. To type the global `cv` object that OpenCV.js creates, add this to your `src/typings.d.ts` file:
 
+```ts
+import type { OpenCVModule } from 'ng-open-cv';
+
+declare global {
+  const cv: OpenCVModule;
+}
 ```
-declare var cv: any;
+
+You can also import OpenCV.js value types in application code:
+
+```ts
+import type { OpenCV } from 'ng-open-cv';
+
+let source: OpenCV.Mat;
 ```
 
 ## Demo
