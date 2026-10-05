@@ -365,10 +365,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/router@^21.2.15":
-  version "21.2.15"
-  resolved "https://registry.npmjs.org/@angular/router/-/router-21.2.15.tgz"
-  integrity sha512-Cej4hYkmaTB6wXn1xQPlr4O1wHgUD0WLv//Oue1IssKqL8vkzic5f5x/H/bxtxxGlSnc+i6uIUF/lvjdGoWk/A==
+"@angular/router@^21.2.24":
+  version "21.2.24"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-21.2.24.tgz#f7d0b9794338e39649a928c6bf53566da8a7d35d"
+  integrity sha512-E72AvyTRGv5rDa/SlfSztThJ+9SemjnblzB9jTb8LJOFPo7u4GlfytvRE8DnxwmTfnlZcA6Sr10zlSDnL4pmyw==
   dependencies:
     tslib "^2.3.0"
 
